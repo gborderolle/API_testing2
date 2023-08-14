@@ -1,5 +1,6 @@
 ﻿using API_testing2.Models;
 using API_testing2.Models.Dto;
+using Azure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -15,32 +16,6 @@ namespace API_testing2.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Villa>().HasData(
-                new Villa()
-                {
-                    Id = new Guid(),
-                    Name = "Villa Real 1",
-                    Details = "La Villa Real 1 es grande y linda",
-                    ImageUrl = "",
-                    Tenants = 5,
-                    SizeMeters = 50,
-                    Fee = 200,
-                    Creation = DateTime.Now,
-                    Update = DateTime.Now
-                },
-                new Villa()
-                {
-                    Id = new Guid(),
-                    Name = "Villa Real 2",
-                    Details = "La Villa Real 2 es chica",
-                    ImageUrl = "",
-                    Tenants = 2,
-                    SizeMeters = 23,
-                    Fee = 100,
-                    Creation = DateTime.Now,
-                    Update = DateTime.Now
-                }
-            );
         }
 
         internal async Task<List<VillaDto>> GetVillas()
@@ -48,7 +23,7 @@ namespace API_testing2.Context
             return await Villa.Select(c => c.ToDTO()).ToListAsync();
         }
 
-        internal async Task<Villa> GetVilla(Guid id)
+        internal async Task<Villa> GetVilla(int id)
         {
             return await Villa.FirstAsync(x => x.Id == id);
         }
@@ -71,7 +46,7 @@ namespace API_testing2.Context
             return await GetVilla(response.Entity.Id);
         }
 
-        internal async Task<bool> UpdateVilla(VillaDto villaDto)
+        internal async Task<VillaDto> UpdateVilla(VillaDto villaDto)
         {
             Villa villa = new()
             {
@@ -79,29 +54,34 @@ namespace API_testing2.Context
                 Name = villaDto.Name,
                 Details = villaDto.Details,
                 ImageUrl = villaDto.ImageUrl,
-                Tenants= villaDto.Tenants,
-                SizeMeters= villaDto.SizeMeters,
-                Fee= villaDto.Fee,
-                Creation= villaDto.Creation,
-                Update= villaDto.Update,
+                Tenants = villaDto.Tenants,
+                SizeMeters = villaDto.SizeMeters,
+                Fee = villaDto.Fee,
+                Creation = villaDto.Creation,
+                Update = villaDto.Update,
 
             };
             Villa.Update(villa);
             await SaveChangesAsync();
-            return true;
+            return villa.ToDTO();
         }
 
-        internal async Task<bool> DeleteVilla(Guid id)
+        internal async Task<bool> DeleteVilla(int id)
         {
             Villa entity = await GetVilla(id);
             Villa.Remove(entity);
-            SaveChanges();
+            await SaveChangesAsync();
             return true;
         }
 
         internal bool Exists(VillaDto villa)
         {
             return Villa.Any(v => v.Name.ToLower() == villa.Name.ToLower());
+        }
+
+        internal Task<VillaDto> UpdatePartialVilla(JsonPatchDocument patchDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

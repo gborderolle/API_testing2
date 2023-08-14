@@ -1,6 +1,7 @@
 ﻿using API_testing2.Context;
 using API_testing2.Models;
 using API_testing2.Models.Dto;
+using Azure;
 
 namespace API_testing2.Services
 {
@@ -18,7 +19,7 @@ namespace API_testing2.Services
             return await _contextDB.GetVillas();
         }
 
-        internal async Task<VillaDto> GetVilla(Guid id)
+        internal async Task<VillaDto> GetVilla(int id)
         {
             Villa villa = await _contextDB.GetVilla(id);
             return villa.ToDTO();
@@ -26,15 +27,16 @@ namespace API_testing2.Services
 
         internal async Task<VillaDto> CreateVilla(VillaDto villa)
         {
-            return await _contextDB.CreateVillaAsync(villa).Result.ToDTOAsync();
+            Villa temp = await _contextDB.CreateVillaAsync(villa);
+            return temp.ToDTO();
         }
 
-        internal async Task<bool> UpdateVilla(VillaDto villa)
+        internal async Task<VillaDto> UpdateVilla(VillaDto villa)
         {
             return await _contextDB.UpdateVilla(villa);
         }
 
-        internal async Task<bool> DeleteVilla(Guid id)
+        internal async Task<bool> DeleteVilla(int id)
         {
             return await _contextDB.DeleteVilla(id);
         }
@@ -42,6 +44,11 @@ namespace API_testing2.Services
         internal bool Exists(VillaDto villa)
         {
             return _contextDB.Exists(villa);
+        }
+
+        internal async Task<VillaDto> UpdatePartialVilla(JsonPatchDocument patchDto)
+        {
+            return await _contextDB.UpdatePartialVilla(patchDto);
         }
     }
 }

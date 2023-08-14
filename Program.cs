@@ -4,46 +4,39 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuración CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "MyAllowSpecificOrigins",
-                      builder =>
+                      builderCors =>
                       {
-                          builder.WithOrigins("http://127.0.0.1:5500")
-                                 .AllowAnyHeader()
-                                 .AllowAnyMethod();
+                          builderCors.WithOrigins("http://127.0.0.1:5500")
+                                     .AllowAnyHeader()
+                                     .AllowAnyMethod();
                       });
 });
-builder.Services.AddControllers();
+
+// Configuración de controladores y JSON
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
+
+// Configuración Swagger
 builder.Services.AddSwaggerGen();
+
+// Configuración de enrutamiento
 builder.Services.AddRouting(routing => routing.LowercaseUrls = true);
 
+// Configuración de la base de datos
+var isLocalConnectionString = builder.Configuration.GetValue<bool>("ConnectionString_isLocal");
+var connectionStringKey = isLocalConnectionString ? "ConnectionString_apitesting2db_local" : "ConnectionString_apitesting2db_remote";
+builder.Services.AddDbContext<ContextDB>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(connectionStringKey)));
 
-bool contextIsLocal = false;
-if (!bool.TryParse(builder.Configuration.GetConnectionString("ConnectionString_isLocal"), out contextIsLocal))
-{
-    contextIsLocal = false;
-}
-
-if (contextIsLocal)
-{
-    builder.Services.AddDbContext<ContextDB>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString_apitesting2db_local")));
-}
-else
-{
-    builder.Services.AddDbContext<ContextDB>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString_apitesting2db_remote")));
-}
-
-/* ------------ SERVICES ------------ */
+// Registro de servicios
 builder.Services.AddTransient<ServiceVilla>();
-
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuración del middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -53,7 +46,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseCors("MyAllowSpecificOrigins");  // Apply the CORS policy, always after UserRouting
+app.UseCors("MyAllowSpecificOrigins");
 app.UseAuthorization();
 app.MapControllers();
 

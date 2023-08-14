@@ -24,11 +24,11 @@ namespace API_testing2.Migrations
 
             modelBuilder.Entity("API_testing2.Models.Villa", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Creation")
                         .HasColumnType("datetime2");
@@ -58,32 +58,6 @@ namespace API_testing2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Villa");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Creation = new DateTime(2023, 8, 13, 19, 20, 47, 164, DateTimeKind.Local).AddTicks(4453),
-                            Details = "La Villa Real 1 es grande y linda",
-                            Fee = 200m,
-                            ImageUrl = "",
-                            Name = "Villa Real 1",
-                            SizeMeters = 50,
-                            Tenants = 5,
-                            Update = new DateTime(2023, 8, 13, 19, 20, 47, 164, DateTimeKind.Local).AddTicks(4466)
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Creation = new DateTime(2023, 8, 13, 19, 20, 47, 164, DateTimeKind.Local).AddTicks(4469),
-                            Details = "La Villa Real 2 es chica",
-                            Fee = 100m,
-                            ImageUrl = "",
-                            Name = "Villa Real 2",
-                            SizeMeters = 23,
-                            Tenants = 2,
-                            Update = new DateTime(2023, 8, 13, 19, 20, 47, 164, DateTimeKind.Local).AddTicks(4470)
-                        });
                 });
 #pragma warning restore 612, 618
         }

@@ -4,10 +4,7 @@ namespace API_testing2.Models.Dto
 {
     public class VillaDto
     {
-        public Guid Id { get; set; }
-        
-        [Required]
-        [MaxLength(30)]
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Details { get; set; }
         public string ImageUrl { get; set; }
