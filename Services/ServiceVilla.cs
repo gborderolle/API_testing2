@@ -25,6 +25,12 @@ namespace API_testing2.Services
             return villa.ToDTO();
         }
 
+        internal async Task<VillaDto> GetVilla(int id)
+        {
+            Villa villa = await _contextDB.GetVilla(id);
+            return villa.ToDTO();
+        }
+
         internal async Task<VillaDto> CreateVilla(VillaCreateDto villa)
         {
             Villa temp = await _contextDB.CreateVillaAsync(villa);

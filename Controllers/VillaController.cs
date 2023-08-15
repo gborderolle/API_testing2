@@ -107,7 +107,7 @@ namespace API_testing2.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaDto> patchDto)
+        public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDto> patchDto)
         {
             // Validar entrada
             if (patchDto == null || id <= 0)
@@ -117,7 +117,7 @@ namespace API_testing2.Controllers
             }
 
             // Obtener el DTO existente
-            VillaDto villaDto = await _serviceVilla.GetVilla(id);
+            VillaUpdateDto villaDto = await _serviceVilla.GetVilla(id);
 
             // Verificar si el villaDto existe
             if (villaDto == null)
