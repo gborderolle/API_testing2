@@ -16,6 +16,33 @@ namespace API_testing2.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Villa>()
+                .HasData(
+                new Villa()
+                {
+                    Id = 1,
+                    Name = "Villa 1",
+                    Details = "",
+                    ImageUrl = "",
+                    Tenants = 0,
+                    SizeMeters = 0,
+                    Fee = 10,
+                    Creation = DateTime.Now,
+                    Update = DateTime.Now
+                },
+                new Villa()
+                {
+                    Id = 2,
+                    Name = "Villa 2",
+                    Details = "",
+                    ImageUrl = "",
+                    Tenants = 0,
+                    SizeMeters = 0,
+                    Fee = 20,
+                    Creation = DateTime.Now,
+                    Update = DateTime.Now
+                }
+                );
         }
 
         internal async Task<List<VillaDto>> GetVillas()
@@ -25,10 +52,10 @@ namespace API_testing2.Context
 
         internal async Task<Villa> GetVilla(int id)
         {
-            return await Villa.FirstAsync(x => x.Id == id);
+            return await Villa.AsNoTracking().FirstAsync(x => x.Id == id);
         }
 
-        internal async Task<Villa> CreateVillaAsync(VillaDto villaDto)
+        internal async Task<Villa> CreateVillaAsync(VillaCreateDto villaDto)
         {
             Villa villa = new()
             {
@@ -46,7 +73,7 @@ namespace API_testing2.Context
             return await GetVilla(response.Entity.Id);
         }
 
-        internal async Task<VillaDto> UpdateVilla(VillaDto villaDto)
+        internal async Task<VillaDto> UpdateVilla(VillaUpdateDto villaDto)
         {
             Villa villa = new()
             {
@@ -74,14 +101,10 @@ namespace API_testing2.Context
             return true;
         }
 
-        internal bool Exists(VillaDto villa)
+        internal bool ExistsByName(VillaCreateDto villa)
         {
             return Villa.Any(v => v.Name.ToLower() == villa.Name.ToLower());
         }
 
-        internal Task<VillaDto> UpdatePartialVilla(JsonPatchDocument patchDto)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

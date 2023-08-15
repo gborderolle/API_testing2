@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_testing2.Migrations
 {
     [DbContext(typeof(ContextDB))]
-    [Migration("20230814053439_migracion")]
+    [Migration("20230814200007_migracion")]
     partial class migracion
     {
         /// <inheritdoc />
@@ -29,7 +29,7 @@ namespace API_testing2.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -40,6 +40,7 @@ namespace API_testing2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Fee")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ImageUrl")
@@ -61,6 +62,32 @@ namespace API_testing2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Villa");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Creation = new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3522),
+                            Details = "",
+                            Fee = 10m,
+                            ImageUrl = "",
+                            Name = "Villa 1",
+                            SizeMeters = 0,
+                            Tenants = 0,
+                            Update = new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3532)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Creation = new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3535),
+                            Details = "",
+                            Fee = 20m,
+                            ImageUrl = "",
+                            Name = "Villa 2",
+                            SizeMeters = 0,
+                            Tenants = 0,
+                            Update = new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3536)
+                        });
                 });
 #pragma warning restore 612, 618
         }

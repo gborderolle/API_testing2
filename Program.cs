@@ -27,7 +27,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRouting(routing => routing.LowercaseUrls = true);
 
 // Configuración de la base de datos
-var isLocalConnectionString = builder.Configuration.GetValue<bool>("ConnectionString_isLocal");
+var isLocalConnectionString = builder.Configuration.GetValue<bool>("ConnectionStrings:ConnectionString_isLocal");
 var connectionStringKey = isLocalConnectionString ? "ConnectionString_apitesting2db_local" : "ConnectionString_apitesting2db_remote";
 builder.Services.AddDbContext<ContextDB>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(connectionStringKey)));
 

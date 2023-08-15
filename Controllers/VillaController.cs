@@ -1,6 +1,5 @@
 ﻿using API_testing2.Models.Dto;
 using API_testing2.Services;
-using Azure;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,26 +52,27 @@ namespace API_testing2.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(VillaDto))]
-        public async Task<IActionResult> CreateVilla([FromBody] VillaDto villaDto)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(VillaCreateDto))]
+        public async Task<IActionResult> CreateVilla([FromBody] VillaCreateDto villaDto)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Ocurrió un error en el servidor.");
                 return BadRequest(ModelState);
             }
-            if (_serviceVilla.Exists(villaDto))
+            if (_serviceVilla.ExistsByName(villaDto))
             {
                 _logger.LogError("El nombre ya existe en el sistema");
                 ModelState.AddModelError("NameAlreadyExists", "El nombre ya existe en el sistema.");
                 return BadRequest(ModelState);
             }
+
             VillaDto createdVilla = await _serviceVilla.CreateVilla(villaDto);
             _logger.LogInformation($"Se creó correctamente la Villa={createdVilla.Id}.");
-            return CreatedAtAction(nameof(GetVilla), new { id = createdVilla.Id }, createdVilla);
+            return CreatedAtRoute("GetVilla", new { id = createdVilla.Id }, villaDto);
         }
 
-        [HttpDelete("{id:id}")]
+        [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         public async Task<IActionResult> DeleteVilla(int id)
         {
@@ -88,9 +88,9 @@ namespace API_testing2.Controllers
         }
 
         [HttpPut("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaUpdateDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaDto villaDto)
+        public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaUpdateDto villaDto)
         {
             if (villaDto == null || id != villaDto.Id)
             {
@@ -100,7 +100,7 @@ namespace API_testing2.Controllers
 
             _logger.LogInformation($"Se actualizó correctamente la Villa={id}.");
             VillaDto updatedVilla = await _serviceVilla.UpdateVilla(villaDto);
-            return Ok(updatedVilla);
+            return Ok(villaDto);
         }
 
         [HttpPatch("{id:int}")]
@@ -133,6 +133,8 @@ namespace API_testing2.Controllers
                 _logger.LogError($"Ocurrió un error en el servidor.");
                 return BadRequest(ModelState);
             }
+
+            await _serviceVilla.UpdateVilla(villaDto);
 
             _logger.LogInformation($"Se actualizó correctamente la Villa={id}.");
             return NoContent();

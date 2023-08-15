@@ -11,6 +11,12 @@ namespace API_testing1.Services
         {
             cfg.CreateMap<VillaDto, Villa>();
             cfg.CreateMap<Villa, VillaDto>();
+
+            cfg.CreateMap<VillaCreateDto, Villa>();
+            cfg.CreateMap<Villa, VillaCreateDto>();
+
+            cfg.CreateMap<VillaUpdateDto, Villa>();
+            cfg.CreateMap<Villa, VillaUpdateDto>();
         });
 
         public static Mapper mapper { get; set; } = new(config);

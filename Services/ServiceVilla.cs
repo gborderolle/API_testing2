@@ -25,13 +25,13 @@ namespace API_testing2.Services
             return villa.ToDTO();
         }
 
-        internal async Task<VillaDto> CreateVilla(VillaDto villa)
+        internal async Task<VillaDto> CreateVilla(VillaCreateDto villa)
         {
             Villa temp = await _contextDB.CreateVillaAsync(villa);
             return temp.ToDTO();
         }
 
-        internal async Task<VillaDto> UpdateVilla(VillaDto villa)
+        internal async Task<VillaDto> UpdateVilla(VillaUpdateDto villa)
         {
             return await _contextDB.UpdateVilla(villa);
         }
@@ -41,14 +41,10 @@ namespace API_testing2.Services
             return await _contextDB.DeleteVilla(id);
         }
 
-        internal bool Exists(VillaDto villa)
+        internal bool ExistsByName(VillaCreateDto villa)
         {
-            return _contextDB.Exists(villa);
+            return _contextDB.ExistsByName(villa);
         }
 
-        internal async Task<VillaDto> UpdatePartialVilla(JsonPatchDocument patchDto)
-        {
-            return await _contextDB.UpdatePartialVilla(patchDto);
-        }
     }
 }

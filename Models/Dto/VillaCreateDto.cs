@@ -1,16 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using API_testing1.Services;
-using API_testing2.Models.Dto;
 
-namespace API_testing2.Models
+namespace API_testing2.Models.Dto
 {
-    public class Villa
+    public class VillaCreateDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(30)]
         public string Name { get; set; }
@@ -31,16 +24,6 @@ namespace API_testing2.Models
         public DateTime Creation { get; set; }
 
         public DateTime Update { get; set; }
-
-        public VillaDto ToDTO()
-        {
-            return Utls.mapper.Map<VillaDto>(this);
-        }
-
-        public VillaCreateDto ToCreateDTO()
-        {
-            return Utls.mapper.Map<VillaCreateDto>(this);
-        }
 
     }
 }
