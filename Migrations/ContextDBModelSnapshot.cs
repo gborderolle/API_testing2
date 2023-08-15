@@ -45,7 +45,8 @@ namespace API_testing2.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<int?>("SizeMeters")
                         .HasColumnType("int");
@@ -64,26 +65,26 @@ namespace API_testing2.Migrations
                         new
                         {
                             Id = 1,
-                            Creation = new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3522),
+                            Creation = new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(408),
                             Details = "",
                             Fee = 10m,
                             ImageUrl = "",
                             Name = "Villa 1",
                             SizeMeters = 0,
                             Tenants = 0,
-                            Update = new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3532)
+                            Update = new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(421)
                         },
                         new
                         {
                             Id = 2,
-                            Creation = new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3535),
+                            Creation = new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(425),
                             Details = "",
                             Fee = 20m,
                             ImageUrl = "",
                             Name = "Villa 2",
                             SizeMeters = 0,
                             Tenants = 0,
-                            Update = new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3536)
+                            Update = new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(426)
                         });
                 });
 #pragma warning restore 612, 618

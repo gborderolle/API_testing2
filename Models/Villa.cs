@@ -37,6 +37,11 @@ namespace API_testing2.Models
             return Utls.mapper.Map<VillaDto>(this);
         }
 
+        public VillaUpdateDto ToUpdateDTO()
+        {
+            return Utls.mapper.Map<VillaUpdateDto>(this);
+        }
+
         public VillaCreateDto ToCreateDTO()
         {
             return Utls.mapper.Map<VillaCreateDto>(this);

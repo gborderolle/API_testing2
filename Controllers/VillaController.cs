@@ -60,7 +60,7 @@ namespace API_testing2.Controllers
                 _logger.LogError($"Ocurrió un error en el servidor.");
                 return BadRequest(ModelState);
             }
-            if (_serviceVilla.ExistsByName(villaDto))
+            if (await _serviceVilla.ExistsByName(villaDto))
             {
                 _logger.LogError("El nombre ya existe en el sistema");
                 ModelState.AddModelError("NameAlreadyExists", "El nombre ya existe en el sistema.");
@@ -117,7 +117,7 @@ namespace API_testing2.Controllers
             }
 
             // Obtener el DTO existente
-            VillaUpdateDto villaDto = await _serviceVilla.GetVilla(id);
+            VillaUpdateDto villaDto = await _serviceVilla.GetUpdateVilla(id);
 
             // Verificar si el villaDto existe
             if (villaDto == null)

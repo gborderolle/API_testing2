@@ -21,24 +21,36 @@ namespace API_testing2.Context
                 new Villa()
                 {
                     Id = 1,
-                    Name = "Villa 1",
-                    Details = "",
+                    Name = "Villa número 1",
+                    Details = "La villa grande",
                     ImageUrl = "",
-                    Tenants = 0,
-                    SizeMeters = 0,
-                    Fee = 10,
+                    Tenants = 10,
+                    SizeMeters = 32,
+                    Fee = 86,
                     Creation = DateTime.Now,
                     Update = DateTime.Now
                 },
                 new Villa()
                 {
                     Id = 2,
-                    Name = "Villa 2",
-                    Details = "",
+                    Name = "Villa número 2",
+                    Details = "La villa mediana",
                     ImageUrl = "",
-                    Tenants = 0,
-                    SizeMeters = 0,
-                    Fee = 20,
+                    Tenants = 7,
+                    SizeMeters = 25,
+                    Fee = 50,
+                    Creation = DateTime.Now,
+                    Update = DateTime.Now
+                },
+                new Villa()
+                {
+                    Id = 2,
+                    Name = "Villa número 3",
+                    Details = "La villa pequeña",
+                    ImageUrl = "",
+                    Tenants = 2,
+                    SizeMeters = 18,
+                    Fee = 28,
                     Creation = DateTime.Now,
                     Update = DateTime.Now
                 }
@@ -101,9 +113,9 @@ namespace API_testing2.Context
             return true;
         }
 
-        internal bool ExistsByName(VillaCreateDto villa)
+        internal async Task<bool> ExistsByName(VillaCreateDto villa)
         {
-            return Villa.Any(v => v.Name.ToLower() == villa.Name.ToLower());
+            return await Villa.AnyAsync(v => v.Name.ToLower() == villa.Name.ToLower());
         }
 
     }

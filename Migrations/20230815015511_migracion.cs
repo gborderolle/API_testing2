@@ -19,7 +19,7 @@ namespace API_testing2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Details = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Tenants = table.Column<int>(type: "int", nullable: true),
@@ -38,8 +38,8 @@ namespace API_testing2.Migrations
                 columns: new[] { "Id", "Creation", "Details", "Fee", "ImageUrl", "Name", "SizeMeters", "Tenants", "Update" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3522), "", 10m, "", "Villa 1", 0, 0, new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3532) },
-                    { 2, new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3535), "", 20m, "", "Villa 2", 0, 0, new DateTime(2023, 8, 14, 17, 0, 7, 6, DateTimeKind.Local).AddTicks(3536) }
+                    { 1, new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(408), "", 10m, "", "Villa 1", 0, 0, new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(421) },
+                    { 2, new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(425), "", 20m, "", "Villa 2", 0, 0, new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(426) }
                 });
         }
 
