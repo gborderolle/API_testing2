@@ -14,30 +14,27 @@ namespace API_testing2.Services
             _contextDB = contextDB;
         }
 
-        internal async Task<List<VillaDto>> GetVillas()
+        internal async Task<List<Villa>> GetVillas()
         {
             return await _contextDB.GetVillas();
         }
 
-        internal async Task<VillaDto> GetVilla(int id)
+        internal async Task<Villa> GetVilla(int id)
         {
-            Villa villa = await _contextDB.GetVilla(id);
-            return villa.ToDTO();
+            return await _contextDB.GetVilla(id);
         }
 
-        internal async Task<VillaUpdateDto> GetUpdateVilla(int id)
+        internal async Task<Villa> GetUpdateVilla(int id)
         {
-            Villa villa = await _contextDB.GetVilla(id);
-            return villa.ToUpdateDTO();
+            return await _contextDB.GetVilla(id);
         }
 
-        internal async Task<VillaDto> CreateVilla(VillaCreateDto villa)
+        internal async Task<Villa> CreateVilla(Villa villa)
         {
-            Villa temp = await _contextDB.CreateVillaAsync(villa);
-            return temp.ToDTO();
+            return await _contextDB.CreateVillaAsync(villa);
         }
 
-        internal async Task<VillaDto> UpdateVilla(VillaUpdateDto villa)
+        internal async Task<Villa> UpdateVilla(Villa villa)
         {
             return await _contextDB.UpdateVilla(villa);
         }

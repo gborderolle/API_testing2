@@ -38,8 +38,9 @@ namespace API_testing2.Migrations
                 columns: new[] { "Id", "Creation", "Details", "Fee", "ImageUrl", "Name", "SizeMeters", "Tenants", "Update" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(408), "", 10m, "", "Villa 1", 0, 0, new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(421) },
-                    { 2, new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(425), "", 20m, "", "Villa 2", 0, 0, new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(426) }
+                    { 1, new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7734), "La villa grande", 86m, "", "Villa número 1", 32, 10, new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7745) },
+                    { 2, new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7747), "La villa mediana", 50m, "", "Villa número 2", 25, 7, new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7748) },
+                    { 3, new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7750), "La villa pequeña", 28m, "", "Villa número 3", 18, 2, new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7750) }
                 });
         }
 

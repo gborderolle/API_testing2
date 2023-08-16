@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using API_testing1.Services;
 using API_testing2.Models.Dto;
 
 namespace API_testing2.Models
@@ -32,20 +31,20 @@ namespace API_testing2.Models
 
         public DateTime Update { get; set; }
 
-        public VillaDto ToDTO()
-        {
-            return Utls.mapper.Map<VillaDto>(this);
-        }
+        //public VillaDto ToDTO()
+        //{
+        //    return Utls.mapper.Map<VillaDto>(this);
+        //}
 
-        public VillaUpdateDto ToUpdateDTO()
-        {
-            return Utls.mapper.Map<VillaUpdateDto>(this);
-        }
+        //public VillaUpdateDto ToUpdateDTO()
+        //{
+        //    return Utls.mapper.Map<VillaUpdateDto>(this);
+        //}
 
-        public VillaCreateDto ToCreateDTO()
-        {
-            return Utls.mapper.Map<VillaCreateDto>(this);
-        }
+        //public VillaCreateDto ToCreateDTO()
+        //{
+        //    return Utls.mapper.Map<VillaCreateDto>(this);
+        //}
 
     }
 }

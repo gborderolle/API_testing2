@@ -44,7 +44,7 @@ namespace API_testing2.Context
                 },
                 new Villa()
                 {
-                    Id = 2,
+                    Id = 3,
                     Name = "Villa número 3",
                     Details = "La villa pequeña",
                     ImageUrl = "",
@@ -57,9 +57,9 @@ namespace API_testing2.Context
                 );
         }
 
-        internal async Task<List<VillaDto>> GetVillas()
+        internal async Task<List<Villa>> GetVillas()
         {
-            return await Villa.Select(c => c.ToDTO()).ToListAsync();
+            return await Villa.ToListAsync();
         }
 
         internal async Task<Villa> GetVilla(int id)
@@ -67,42 +67,18 @@ namespace API_testing2.Context
             return await Villa.AsNoTracking().FirstAsync(x => x.Id == id);
         }
 
-        internal async Task<Villa> CreateVillaAsync(VillaCreateDto villaDto)
+        internal async Task<Villa> CreateVillaAsync(Villa villa)
         {
-            Villa villa = new()
-            {
-                Name = villaDto.Name,
-                Details = villaDto.Details,
-                ImageUrl = villaDto.ImageUrl,
-                Tenants = villaDto.Tenants,
-                SizeMeters = villaDto.SizeMeters,
-                Fee = villaDto.Fee,
-                Creation = villaDto.Creation,
-                Update = DateTime.Now
-            };
             EntityEntry<Villa> response = await Villa.AddAsync(villa);
             await SaveChangesAsync();
             return await GetVilla(response.Entity.Id);
         }
 
-        internal async Task<VillaDto> UpdateVilla(VillaUpdateDto villaDto)
+        internal async Task<Villa> UpdateVilla(Villa villa)
         {
-            Villa villa = new()
-            {
-                Id = villaDto.Id,
-                Name = villaDto.Name,
-                Details = villaDto.Details,
-                ImageUrl = villaDto.ImageUrl,
-                Tenants = villaDto.Tenants,
-                SizeMeters = villaDto.SizeMeters,
-                Fee = villaDto.Fee,
-                Creation = villaDto.Creation,
-                Update = villaDto.Update,
-
-            };
             Villa.Update(villa);
             await SaveChangesAsync();
-            return villa.ToDTO();
+            return villa;
         }
 
         internal async Task<bool> DeleteVilla(int id)

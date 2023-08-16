@@ -65,26 +65,38 @@ namespace API_testing2.Migrations
                         new
                         {
                             Id = 1,
-                            Creation = new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(408),
-                            Details = "",
-                            Fee = 10m,
+                            Creation = new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7734),
+                            Details = "La villa grande",
+                            Fee = 86m,
                             ImageUrl = "",
-                            Name = "Villa 1",
-                            SizeMeters = 0,
-                            Tenants = 0,
-                            Update = new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(421)
+                            Name = "Villa número 1",
+                            SizeMeters = 32,
+                            Tenants = 10,
+                            Update = new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7745)
                         },
                         new
                         {
                             Id = 2,
-                            Creation = new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(425),
-                            Details = "",
-                            Fee = 20m,
+                            Creation = new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7747),
+                            Details = "La villa mediana",
+                            Fee = 50m,
                             ImageUrl = "",
-                            Name = "Villa 2",
-                            SizeMeters = 0,
-                            Tenants = 0,
-                            Update = new DateTime(2023, 8, 14, 22, 55, 10, 826, DateTimeKind.Local).AddTicks(426)
+                            Name = "Villa número 2",
+                            SizeMeters = 25,
+                            Tenants = 7,
+                            Update = new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7748)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Creation = new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7750),
+                            Details = "La villa pequeña",
+                            Fee = 28m,
+                            ImageUrl = "",
+                            Name = "Villa número 3",
+                            SizeMeters = 18,
+                            Tenants = 2,
+                            Update = new DateTime(2023, 8, 16, 15, 51, 29, 909, DateTimeKind.Local).AddTicks(7750)
                         });
                 });
 #pragma warning restore 612, 618

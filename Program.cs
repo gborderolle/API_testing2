@@ -1,6 +1,9 @@
 using API_testing2.Context;
 using API_testing2.Services;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using API_testing2.Repository.Interfaces;
+using API_testing2.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +32,21 @@ builder.Services.AddRouting(routing => routing.LowercaseUrls = true);
 // Configuración de la base de datos
 var isLocalConnectionString = builder.Configuration.GetValue<bool>("ConnectionStrings:ConnectionString_isLocal");
 var connectionStringKey = isLocalConnectionString ? "ConnectionString_apitesting2db_local" : "ConnectionString_apitesting2db_remote";
-builder.Services.AddDbContext<ContextDB>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(connectionStringKey)));
+builder.Services.AddDbContext<ContextDB>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString(connectionStringKey));
+});
+
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 // Registro de servicios
-builder.Services.AddTransient<ServiceVilla>();
+//builder.Services.AddTransient<ServiceVilla>();
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+
+// Tipos de servicios
+// AddScoped: se crea cada vez que se solicita y luego se destruye (mejor)
+// AddTransient: se crea cada vez que se solicita
+// AddSingleton: se crea la primera vez que se solicita y luego se usa siempre la misma instancia
 
 var app = builder.Build();
 
