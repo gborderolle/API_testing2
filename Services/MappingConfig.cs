@@ -10,7 +10,7 @@ namespace API_testing2.Services
         {
             CreateMap<Villa, VillaDto>().ReverseMap();
             CreateMap<Villa, VillaCreateDto>().ReverseMap();
-            CreateMap<VillaCreateDto, Villa>().ReverseMap();
+            CreateMap<Villa, VillaUpdateDto>().ReverseMap();
         }
     }
 }
