@@ -161,3 +161,4 @@ D:\Documents\GitHub\API_testing2\API_testing2\bin\Debug\net7.0\Microsoft.AspNetC
 D:\Documents\GitHub\API_testing2\API_testing2\bin\Debug\net7.0\Newtonsoft.Json.dll
 D:\Documents\GitHub\API_testing2\API_testing2\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
 D:\Documents\GitHub\API_testing2\API_testing2\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Gonzalo\Documents\GitHub\API_testing2\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

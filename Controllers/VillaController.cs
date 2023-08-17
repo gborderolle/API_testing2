@@ -1,9 +1,7 @@
 ﻿using API_testing2.Models;
 using API_testing2.Models.Dto;
 using API_testing2.Repository.Interfaces;
-using API_testing2.Services;
 using AutoMapper;
-using Azure.Core;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +15,10 @@ namespace API_testing2.Controllers
         private readonly ILogger<VillaController> _logger; // Logger para registrar eventos.
         private readonly IMapper _mapper;
         private readonly IVillaRepository _repositoryVilla; // Servicio que contiene la lógica principal de negocio para villas.
-        //private readonly ServiceVilla _serviceVilla; // Servicio que contiene la lógica principal de negocio para villas.
 
         // Constructor que recibe dependencias inyectadas.
         public VillaController(ILogger<VillaController> logger, IMapper mapper, IVillaRepository repositoryVilla)
         {
-            //_serviceVilla = serviceVilla;
             _logger = logger;
             _mapper = mapper;
             _repositoryVilla = repositoryVilla;
@@ -40,7 +36,7 @@ namespace API_testing2.Controllers
 
         // Endpoint para obtener una villa por ID.
         [HttpGet("{id:int}", Name = "GetVilla")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetVilla(int id)
@@ -62,7 +58,7 @@ namespace API_testing2.Controllers
 
         // Endpoint para crear una nueva villa.
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(VillaCreateDto))] // tipo de dato del objeto de la respuesta
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(VillaCreateDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
         public async Task<IActionResult> CreateVilla([FromBody] VillaCreateDto villaCreateDto)
         {
             if (!ModelState.IsValid)
@@ -81,13 +77,12 @@ namespace API_testing2.Controllers
 
             await _repositoryVilla.Create(modelo);
             _logger.LogInformation($"Se creó correctamente la Villa={modelo.Id}.");
-            return CreatedAtRoute("GetVilla", new { id = modelo.Id }, modelo); // objeto que devuelve (el que agregó)
+            return CreatedAtRoute("GetVilla", new { id = modelo.Id }, _mapper.Map<VillaCreateDto>(modelo)); // objeto que devuelve (el que creó)
         }
 
         // --------------------------------------------------------- *******************************
-        // s: https://youtu.be/OuiExAqVapk?t=12432
+        // s patrón Repositorio: https://youtu.be/OuiExAqVapk?t=12432
         // --------------------------------------------------------- *******************************
-
 
         // Endpoint para eliminar una villa por ID.
         [HttpDelete("{id:int}")]
@@ -108,24 +103,24 @@ namespace API_testing2.Controllers
 
             _logger.LogInformation($"Se eliminó correctamente la Villa={id}.");
             await _repositoryVilla.Remove(villa);
-            return NoContent();
+            return Ok(true);
         }
 
         // Endpoint para actualizar una villa por ID.
         [HttpPut("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaUpdateDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaUpdateDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaUpdateDto villaUpdateDto)
+        public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaUpdateDto updatedVillaDto)
         {
-            if (villaUpdateDto == null || id != villaUpdateDto.Id)
+            if (updatedVillaDto == null || id != updatedVillaDto.Id)
             {
                 _logger.LogError($"Datos de entrada no válidos: {id}.");
                 return BadRequest();
             }
 
             _logger.LogInformation($"Se actualizó correctamente la Villa={id}.");
-            var updatedVilla = await _repositoryVilla.Update(_mapper.Map<Villa>(villaUpdateDto));
-            return Ok(villaUpdateDto);
+            var updatedVilla = await _repositoryVilla.Update(_mapper.Map<Villa>(updatedVillaDto));
+            return Ok(_mapper.Map<VillaUpdateDto>(updatedVilla));
         }
 
         // Endpoint para hacer una actualización parcial de una villa por ID.
@@ -133,6 +128,7 @@ namespace API_testing2.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaUpdateDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
         public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDto> patchDto)
         {
             // Validar entrada
@@ -161,10 +157,10 @@ namespace API_testing2.Controllers
             }
 
             Villa villa = _mapper.Map<Villa>(villaDto);
-            await _repositoryVilla.Update(villa);
+            var updatedVilla = await _repositoryVilla.Update(villa);
 
             _logger.LogInformation($"Se actualizó correctamente la Villa={id}.");
-            return NoContent();
+            return Ok(_mapper.Map<VillaUpdateDto>(updatedVilla));
         }
     }
 }

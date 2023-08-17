@@ -4,7 +4,6 @@ namespace API_testing2.Models.Dto
 {
     public class VillaDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Details { get; set; }
         public string ImageUrl { get; set; }
