@@ -1,7 +1,6 @@
 using API_testing2.Context;
 using API_testing2.Services;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using API_testing2.Repository.Interfaces;
 using API_testing2.Repository;
 

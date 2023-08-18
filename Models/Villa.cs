@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using API_testing2.Models.Dto;
 
 namespace API_testing2.Models
 {

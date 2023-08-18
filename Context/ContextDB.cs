@@ -69,7 +69,7 @@ namespace API_testing2.Context
             return await Villa.AsNoTracking().FirstAsync(x => x.Id == id);
         }
 
-        internal async Task<Villa> CreateVillaAsync(Villa villa)
+        internal async Task<Villa> CreateVilla(Villa villa)
         {
             EntityEntry<Villa> response = await Villa.AddAsync(villa);
             await SaveChangesAsync();
