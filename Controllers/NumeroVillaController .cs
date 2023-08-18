@@ -20,11 +20,12 @@ namespace API_testing2.Controllers
         protected APIResponse _response;
 
         // Constructor que recibe dependencias inyectadas.
-        public NumeroVillaController (ILogger<NumeroVillaController > logger, IMapper mapper, IVillaRepository repositoryVilla)
+        public NumeroVillaController (ILogger<NumeroVillaController > logger, IMapper mapper, IVillaRepository repositoryVilla, INumeroVillaRepository repositoryNumeroVilla)
         {
             _logger = logger;
             _mapper = mapper;
             _repositoryVilla = repositoryVilla;
+            _repositoryNumeroVilla = repositoryNumeroVilla;
             _response = new();
         }
 

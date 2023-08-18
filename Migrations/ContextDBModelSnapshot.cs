@@ -90,38 +90,38 @@ namespace API_testing2.Migrations
                         new
                         {
                             Id = 1,
-                            Creation = new DateTime(2023, 8, 17, 19, 48, 56, 742, DateTimeKind.Local).AddTicks(6720),
+                            Creation = new DateTime(2023, 8, 18, 1, 26, 46, 941, DateTimeKind.Local).AddTicks(1217),
                             Details = "La villa grande",
                             Fee = 86m,
                             ImageUrl = "",
                             Name = "Villa número 1",
                             SizeMeters = 32,
                             Tenants = 10,
-                            Update = new DateTime(2023, 8, 17, 19, 48, 56, 742, DateTimeKind.Local).AddTicks(6736)
+                            Update = new DateTime(2023, 8, 18, 1, 26, 46, 941, DateTimeKind.Local).AddTicks(1229)
                         },
                         new
                         {
                             Id = 2,
-                            Creation = new DateTime(2023, 8, 17, 19, 48, 56, 742, DateTimeKind.Local).AddTicks(6740),
+                            Creation = new DateTime(2023, 8, 18, 1, 26, 46, 941, DateTimeKind.Local).AddTicks(1233),
                             Details = "La villa mediana",
                             Fee = 50m,
                             ImageUrl = "",
                             Name = "Villa número 2",
                             SizeMeters = 25,
                             Tenants = 7,
-                            Update = new DateTime(2023, 8, 17, 19, 48, 56, 742, DateTimeKind.Local).AddTicks(6741)
+                            Update = new DateTime(2023, 8, 18, 1, 26, 46, 941, DateTimeKind.Local).AddTicks(1234)
                         },
                         new
                         {
                             Id = 3,
-                            Creation = new DateTime(2023, 8, 17, 19, 48, 56, 742, DateTimeKind.Local).AddTicks(6743),
+                            Creation = new DateTime(2023, 8, 18, 1, 26, 46, 941, DateTimeKind.Local).AddTicks(1237),
                             Details = "La villa pequeña",
                             Fee = 28m,
                             ImageUrl = "",
                             Name = "Villa número 3",
                             SizeMeters = 18,
                             Tenants = 2,
-                            Update = new DateTime(2023, 8, 17, 19, 48, 56, 742, DateTimeKind.Local).AddTicks(6744)
+                            Update = new DateTime(2023, 8, 18, 1, 26, 46, 941, DateTimeKind.Local).AddTicks(1237)
                         });
                 });
 

@@ -3,3 +3,11 @@
 apitesting2db
 apitesting2db_login
 apitesting2db_login1234
+
+
+Conexión Azure:
+
+Servidor: gborderolle.database.windows.net
+
+ConnectionString:
+Server=tcp:gborderolle.database.windows.net,1433;Initial Catalog=apitesting2db;Persist Security Info=False;User ID=CloudSA0a04c757;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
