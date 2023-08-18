@@ -11,15 +11,16 @@ namespace API_testing2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VillaController : ControllerBase
+    public class NumeroVillaController  : ControllerBase
     {
-        private readonly ILogger<VillaController> _logger; // Logger para registrar eventos.
+        private readonly ILogger<NumeroVillaController > _logger; // Logger para registrar eventos.
         private readonly IMapper _mapper;
-        private readonly IVillaRepository _repositoryVilla; // Servicio que contiene la lógica principal de negocio para villas.
+        private readonly IVillaRepository _repositoryVilla; 
+        private readonly INumeroVillaRepository _repositoryNumeroVilla; 
         protected APIResponse _response;
 
         // Constructor que recibe dependencias inyectadas.
-        public VillaController(ILogger<VillaController> logger, IMapper mapper, IVillaRepository repositoryVilla)
+        public NumeroVillaController (ILogger<NumeroVillaController > logger, IMapper mapper, IVillaRepository repositoryVilla)
         {
             _logger = logger;
             _mapper = mapper;
@@ -29,15 +30,15 @@ namespace API_testing2.Controllers
 
         // Endpoint para obtener todas las villas.
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<VillaDto>))]
-        public async Task<ActionResult<List<VillaDto>>> GetVillas()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<NumeroVillaDto>))]
+        public async Task<ActionResult<List<NumeroVillaDto>>> GetNumeroVillas()
         {
             try
             {
-                var villaList = await _repositoryVilla.GetAll();
+                var villaList = await _repositoryNumeroVilla.GetAll();
                 _logger.LogInformation("Obtener todas las villas.");
                 _response.StatusCode = HttpStatusCode.OK;
-                _response.Result = _mapper.Map<IEnumerable<VillaDto>>(villaList);
+                _response.Result = _mapper.Map<IEnumerable<NumeroVillaDto>>(villaList);
             }
             catch (Exception ex)
             {
@@ -48,32 +49,32 @@ namespace API_testing2.Controllers
         }
 
         // Endpoint para obtener una villa por ID.
-        [HttpGet("{id:int}", Name = "GetVilla")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
+        [HttpGet("{id:int}", Name = "GetNumeroVilla")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NumeroVillaDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> GetVilla(int id)
+        public async Task<ActionResult<APIResponse>> GetNumeroVilla(int numeroVilla)
         {
             try
             {
-                if (id <= 0)
+                if (numeroVilla <= 0)
                 {
                     _response.IsSuccess = false;
                     _response.StatusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError($"Error al obtener la villa={id}");
+                    _logger.LogError($"Error al obtener la villa={numeroVilla}");
                     return BadRequest(_response);
                 }
 
-                var villa = await _repositoryVilla.Get(v => v.Id == id);
+                var villa = await _repositoryNumeroVilla.Get(v => v.VillaId == numeroVilla);
                 if (villa == null)
                 {
                     _response.IsSuccess = false;
                     _response.StatusCode = HttpStatusCode.NotFound;
-                    _logger.LogError($"La villa ID={id} no existe.");
+                    _logger.LogError($"La villa ID={numeroVilla} no existe.");
                     return NotFound(_response);
                 }
 
-                _response.Result = _mapper.Map<VillaDto>(villa);
+                _response.Result = _mapper.Map<NumeroVillaDto>(villa);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
@@ -87,8 +88,8 @@ namespace API_testing2.Controllers
 
         // Endpoint para crear una nueva villa.
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(VillaCreateDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
-        public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDto villaCreateDto)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(NumeroVillaCreateDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
+        public async Task<ActionResult<APIResponse>> CreateNumeroVilla([FromBody] NumeroVillaCreateDto numeroVillaCreateDto)
         {
             try
             {
@@ -99,7 +100,7 @@ namespace API_testing2.Controllers
                     _logger.LogError($"Ocurrió un error en el servidor.");
                     return BadRequest(ModelState);
                 }
-                if (await _repositoryVilla.Get(v => v.Name.ToLower() == villaCreateDto.Name.ToLower()) != null)
+                if (await _repositoryNumeroVilla.Get(v => v.VillaNro == numeroVillaCreateDto.VillaNro) != null)
                 {
                     _response.IsSuccess = false;
                     _response.StatusCode = HttpStatusCode.BadRequest;
@@ -108,17 +109,17 @@ namespace API_testing2.Controllers
                     return BadRequest(ModelState);
                 }
 
-                Villa modelo = _mapper.Map<Villa>(villaCreateDto);
+                NumeroVilla modelo = _mapper.Map<NumeroVilla>(numeroVillaCreateDto);
                 modelo.Creation = DateTime.Now;
                 modelo.Update = DateTime.Now;
 
-                await _repositoryVilla.Create(modelo);
-                _logger.LogInformation($"Se creó correctamente la Villa={modelo.Id}.");
+                await _repositoryNumeroVilla.Create(modelo);
+                _logger.LogInformation($"Se creó correctamente la Villa={modelo.VillaNro}.");
 
-                _response.Result = _mapper.Map<VillaCreateDto>(modelo);
+                _response.Result = _mapper.Map<NumeroVillaCreateDto>(modelo);
                 _response.StatusCode = HttpStatusCode.Created;
 
-                return CreatedAtRoute("GetVilla", new { id = modelo.Id }, _response); // objeto que devuelve (el que creó)
+                return CreatedAtRoute("GetNumeroVilla", new { id = modelo.VillaNro }, _response); // objeto que devuelve (el que creó)
             }
             catch (Exception ex)
             {
@@ -135,29 +136,29 @@ namespace API_testing2.Controllers
         // Endpoint para eliminar una villa por ID.
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        public async Task<IActionResult> DeleteVilla(int id)
+        public async Task<IActionResult> DeleteNumeroVilla(int numeroVilla)
         {
             try
             {
-                if (id <= 0)
+                if (numeroVilla <= 0)
                 {
                     _response.IsSuccess = false;
                     _response.StatusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError($"Datos de entrada no válidos: {id}.");
+                    _logger.LogError($"Datos de entrada no válidos: {numeroVilla}.");
                     return BadRequest(_response);
                 }
 
-                var villa = await _repositoryVilla.Get(v => v.Id == id);
+                var villa = await _repositoryNumeroVilla.Get(v => v.VillaNro == numeroVilla);
                 if (villa == null)
                 {
                     _response.IsSuccess = false;
                     _response.StatusCode = HttpStatusCode.NotFound;
-                    _logger.LogError($"Registro no encontrado: {id}.");
+                    _logger.LogError($"Registro no encontrado: {numeroVilla}.");
                     return NotFound(_response);
                 }
 
-                await _repositoryVilla.Remove(villa);
-                _logger.LogInformation($"Se eliminó correctamente la Villa={id}.");
+                await _repositoryNumeroVilla.Remove(villa);
+                _logger.LogInformation($"Se eliminó correctamente la Villa={numeroVilla}.");
                 _response.StatusCode = HttpStatusCode.NoContent;
                 return Ok(_response);
             }
@@ -171,23 +172,23 @@ namespace API_testing2.Controllers
 
         // Endpoint para actualizar una villa por ID.
         [HttpPut("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaUpdateDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NumeroVillaUpdateDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaUpdateDto updatedVillaDto)
+        public async Task<IActionResult> UpdateNumeroVilla(int numeroVilla, [FromBody] NumeroVillaUpdateDto updatedVillaDto)
         {
             try
             {
-                if (updatedVillaDto == null || id != updatedVillaDto.Id)
+                if (updatedVillaDto == null || numeroVilla != updatedVillaDto.VillaNro)
                 {
                     _response.IsSuccess = false;
                     _response.StatusCode = HttpStatusCode.BadRequest;
-                    _logger.LogError($"Datos de entrada no válidos: {id}.");
+                    _logger.LogError($"Datos de entrada no válidos: {numeroVilla}.");
                     return BadRequest(_response);
                 }
 
-                var updatedVilla = await _repositoryVilla.Update(_mapper.Map<Villa>(updatedVillaDto));
-                _logger.LogInformation($"Se actualizó correctamente la Villa={id}.");
-                _response.Result = _mapper.Map<VillaUpdateDto>(updatedVilla);
+                var updatedVilla = await _repositoryNumeroVilla.Update(_mapper.Map<NumeroVilla>(updatedVillaDto));
+                _logger.LogInformation($"Se actualizó correctamente la Villa={numeroVilla}.");
+                _response.Result = _mapper.Map<NumeroVillaUpdateDto>(updatedVilla);
                 _response.StatusCode = HttpStatusCode.OK;
 
                 return Ok(_response);
@@ -206,27 +207,27 @@ namespace API_testing2.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VillaUpdateDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
-        public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDto> patchDto)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NumeroVillaUpdateDto))] // tipo de dato del objeto de la respuesta, siempre devolver DTO
+        public async Task<IActionResult> UpdatePartialNumeroVilla(int numeroVilla, JsonPatchDocument<NumeroVillaUpdateDto> patchDto)
         {
             try
             {
                 // Validar entrada
-                if (patchDto == null || id <= 0)
+                if (patchDto == null || numeroVilla <= 0)
                 {
-                    _logger.LogError($"Datos de entrada no válidos: {id}.");
+                    _logger.LogError($"Datos de entrada no válidos: {numeroVilla}.");
                     _response.IsSuccess = false;
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
 
                 // Obtener el DTO existente
-                VillaUpdateDto villaDto = _mapper.Map<VillaUpdateDto>(await _repositoryVilla.Get(v => v.Id == id, tracked: false));
+                NumeroVillaUpdateDto villaDto = _mapper.Map<NumeroVillaUpdateDto>(await _repositoryNumeroVilla.Get(v => v.VillaNro == numeroVilla, tracked: false));
 
                 // Verificar si el villaDto existe
                 if (villaDto == null)
                 {
-                    _logger.LogError($"No se encontró la Villa={id}.");
+                    _logger.LogError($"No se encontró la Villa={numeroVilla}.");
                     _response.IsSuccess = false;
                     _response.StatusCode = HttpStatusCode.NotFound;
                     return NotFound(_response);
@@ -242,11 +243,11 @@ namespace API_testing2.Controllers
                     return BadRequest(ModelState);
                 }
 
-                Villa villa = _mapper.Map<Villa>(villaDto);
-                var updatedVilla = await _repositoryVilla.Update(villa);
-                _logger.LogInformation($"Se actualizó correctamente la Villa={id}.");
+                NumeroVilla villa = _mapper.Map<NumeroVilla>(villaDto);
+                var updatedVilla = await _repositoryNumeroVilla.Update(villa);
+                _logger.LogInformation($"Se actualizó correctamente la Villa={numeroVilla}.");
 
-                _response.Result = _mapper.Map<VillaUpdateDto>(updatedVilla);
+                _response.Result = _mapper.Map<NumeroVillaUpdateDto>(updatedVilla);
                 _response.StatusCode = HttpStatusCode.NoContent;
 
                 return Ok(_response);

@@ -5,6 +5,9 @@ using AutoMapper;
 using API_testing2.Repository.Interfaces;
 using API_testing2.Repository;
 
+// GUÍA COMPLETA: https://www.youtube.com/watch?v=OuiExAqVapk&ab_channel=BaezStoneCreators
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuración CORS
@@ -40,8 +43,9 @@ builder.Services.AddDbContext<ContextDB>(option =>
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 // Registro de servicios
-//builder.Services.AddTransient<ServiceVilla>();
+//builder.Services.AddTransient<ServiceVilla>(); (mejor usar AddScoped)
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<INumeroVillaRepository, NumeroVillaRepository>();
 
 // Tipos de servicios
 // AddScoped: se crea cada vez que se solicita y luego se destruye (mejor)

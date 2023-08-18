@@ -14,15 +14,14 @@ namespace API_testing2.Models.Dto
     /// 
     /// Recordar implementar el AutoMap para cada relación entidad-DTO
     /// </summary>
-    public class VillaDto
+    public class NumeroVillaUpdateDto
     {
         [Required]
-        public string Name { get; set; }
-        public string Details { get; set; }
-        public string ImageUrl { get; set; }
-        public int Tenants { get; set; }
-        public int SizeMeters { get; set; }
-        public decimal? Fee { get; set; }
+        public int VillaNro { get; set; }
 
+        [Required]
+        public int VillaId { get; set; } // FK a Villa
+
+        public string Comments { get; set; }
     }
 }

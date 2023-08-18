@@ -14,6 +14,8 @@ namespace API_testing2.Context
 
         public DbSet<Villa> Villa { get; set; }
 
+        public DbSet<NumeroVilla> NumeroVilla { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Villa>()
